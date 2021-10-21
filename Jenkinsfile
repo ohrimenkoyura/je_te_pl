@@ -21,5 +21,17 @@ pipeline {
     stage('Build') {
       steps { sh 'npm run-script build' }
     }
+    stage('Deploy') {
+      steps { 
+        script {
+          docker.withRegistry(
+            '',
+            '') {
+            def myImage = docker.build('')
+            myImage.push('')
+          }
+        } 
+      } 
+    }    
   }
 }
